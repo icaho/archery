@@ -23,9 +23,9 @@ else
     rootpt=2
 fi
 
-BOOT=$drive$bootpt
-ROOT=$drive$rootpt
 DRIVE=/dev/$drive
+BOOT=$DRIVE$bootpt
+ROOT=$DRIVE$rootpt
 
 timedatectl set-ntp true  # Synchronize motherboard clock
 sgdisk --zap-all $DRIVE  # Delete tables
