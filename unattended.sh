@@ -55,13 +55,14 @@ btrfs su cr /mnt/@var_log
 umount /mnt
 
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@ /dev/mapper/cryptroot /mnt
-mkdir -p /mnt/{boot,home,var,.snapshots,tmp} # Create directories for their respective subvolumes
+mkdir -p /mnt/{boot,home,var,.snapshots,tmp,swapspace} # Create directories for their respective subvolumes
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@home /dev/mapper/cryptroot /mnt/home
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@snapshots /dev/mapper/cryptroot /mnt/.snapshots
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@tmp /dev/mapper/cryptroot /mnt/tmp
 mkdir /mnt/var/{log,cache} # Create directories for their respective var subvolumes
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@var_cache /dev/mapper/cryptroot /mnt/var/cache
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@var_log /dev/mapper/cryptroot /mnt/var/log
+mount -o rw,noatime,space_cache,subvol=@swap /dev/mapper/cryptroot /mnt/swapspace
 mount $BOOT /mnt/boot
 
 sed -i "/#Color/a ILoveCandy" /etc/pacman.conf  # Making pacman prettier
@@ -156,6 +157,16 @@ Target = systemd
 Description = Updating systemd-boot
 When = PostTransaction
 Exec = /usr/bin/bootctl update
+END
+
+truncate -s 0 /swapspace/swapfile
+chattr +C /swapspace/swapfile
+btrfs property set /swapspace/swapfile compression none
+fallocate -l 16G /swapspace/swapfile
+mkswap /swapspace/swapfile
+chmod 600 /swapspace/swapfile
+tee -a /etc/fstab << END
+/swapspace/swapfile none swap defaults,discard 0 0
 END
 
 sed -i "s/^HOOKS.*/HOOKS=(base systemd keyboard autodetect sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/g" /etc/mkinitcpio.conf
