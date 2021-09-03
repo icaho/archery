@@ -68,6 +68,10 @@ mount $BOOT /mnt/boot
 sed -i "/#Color/a ILoveCandy" /etc/pacman.conf  # Making pacman prettier
 sed -i "s/#Color/Color/g" /etc/pacman.conf  # Add color to pacman
 sed -i "s/#ParallelDownloads = 5/ParallelDownloads = 10/g" /etc/pacman.conf  # Parallel downloads
+tee -a /etc/pacman.conf << END
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+END
 
 pacman -Syy
 
@@ -128,6 +132,12 @@ echo -en "$user_password\n$user_password" | passwd $username
 sed -i "s/^# %wheel/%wheel/g" /etc/sudoers
 
 systemctl enable NetworkManager.service NetworkManager-wait-online.service fstrim.timer sshd.service earlyoom.service
+
+tee -a /etc/pacman.conf << END
+
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+END
 
 journalctl --vacuum-size=100M --vacuum-time=2weeks
 
