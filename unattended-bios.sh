@@ -189,7 +189,7 @@ tee -a /etc/fstab << END
 /swapspace/swapfile none swap defaults,discard 0 0
 END
 
-sed -i "s/^HOOKS.*/HOOKS=(base udev autodetect modconf block encrypt btrfs filesystems keyboard fsck)/g" /etc/mkinitcpio.conf
+sed -i "s/^HOOKS.*/HOOKS=(base systemd udev autodetect modconf block encrypt btrfs filesystems keyboard fsck)/g" /etc/mkinitcpio.conf
 sed -i 's/^MODULES.*/MODULES=(intel_agp i915)/' /etc/mkinitcpio.conf
 sed -i 's/^BINARIES.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -P
