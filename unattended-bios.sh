@@ -28,15 +28,23 @@ BOOT=$DRIVE$bootpt
 ROOT=$DRIVE$rootpt
 
 timedatectl set-ntp true  # Synchronize motherboard clock
-sgdisk --zap-all $DRIVE  # Delete tables
-sgdisk --clear \
-       --new=1:0:+600MiB --typecode=1:8300 --change-name=1:BOOT\
-       --new=2:0:0 --typecode=2:8300\
-         $DRIVE
+fdisk $DRIVE << END
+o
+n
+p
+1
+
++600M
+n
+p
+2
+
+
+w
+END
 
 mkfs.ext3 $BOOT
 
-mkdir -p -m0700 /run/cryptsetup  # Change permission to root only
 cryptsetup luksFormat --type luks2 $ROOT
 cryptsetup luksOpen $ROOT cryptroot  # Open the mapper
 
@@ -102,7 +110,7 @@ pacstrap /mnt base base-devel linux linux-firmware \
     xorg-server \
     xf86-video-fbdev \
     xf86-video-intel \
-    grub-bios \
+    grub \
     os-prober
 
 
@@ -188,12 +196,7 @@ mkinitcpio -P
 
 grub-install --target=i386-pc --recheck $DRIVE
 cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
-cat /etc/default/grub | sed -e 's/^\(\(GRUB_CMDLINE_LINUX_DEFAULT=\)\(.*\)\)$/#\1\n\2\3/' > /tmp/default-grub
-cat /tmp/default-grub | awk 'm = $0 ~ /^GRUB_CMDLINE_LINUX_DEFAULT=/ {
-        gsub(/quiet/, "quiet 'cryptdevice=UUID=$(blkid -s UUID -o value $ROOT):luks' 'root=/dev/mapper/cryptroot'", $0);
-        print
-    } !m { print }' > /etc/default/grub
-rm /tmp/default-grub
+sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\".*/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet cryptdevice=UUID=$(blkid -s UUID -o value $ROOT):luks root=/dev/mapper/cryptroot\"" /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 
