@@ -86,7 +86,6 @@ pacman -Syy
 pacstrap /mnt base base-devel linux linux-firmware \
     intel-ucode \
     networkmanager \
-    efibootmgr \
     btrfs-progs \
     neovim \
     zsh \
@@ -166,18 +165,6 @@ SUBSYSTEM=="backlight", ACTION=="add", KERNEL=="intel_backlight", ATTR{brightnes
 END
 
 mkdir -p /etc/pacman.d/hooks/
-touch /etc/pacman.d/hooks/100-systemd-boot.hook
-tee -a /etc/pacman.d/hooks/100-systemd-boot.hook << END
-[Trigger]
-Type = Package
-Operation = Upgrade
-Target = systemd
-
-[Action]
-Description = Updating systemd-boot
-When = PostTransaction
-Exec = /usr/bin/bootctl update
-END
 
 truncate -s 0 /swapspace/swapfile
 chattr +C /swapspace/swapfile
@@ -196,7 +183,7 @@ mkinitcpio -P
 
 grub-install --target=i386-pc --recheck $DRIVE
 cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
-sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\".*/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet cryptdevice=UUID=$(blkid -s UUID -o value $ROOT):luks root=/dev/mapper/cryptroot\"" /etc/default/grub
+sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\".*/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet cryptdevice=UUID=$(blkid -s UUID -o value $ROOT):cryptroot root=/dev/mapper/cryptroot\"" /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 
