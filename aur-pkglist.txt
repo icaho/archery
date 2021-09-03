@@ -1,0 +1,14 @@
+archlinux-artwork
+gtk3-nocsd-git
+montserrat-font-ttf
+mugshot
+nerd-fonts-hack
+nerd-fonts-source-code-pro
+polybar
+polybar-spotify
+rofi-dmenu
+slack-desktop
+ttf-font-awesome-4
+xfce-theme-greybird
+yay
+lightdm-webkit-theme-material-git
