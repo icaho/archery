@@ -26,9 +26,12 @@ rm -rf archery-dotfiles
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 sudo sed -i "/^\[Seat/a greeter-session=lightdm-webkit2-greeter" /etc/lightdm/lightdm.conf
-
+sudo sed -e "s/webkit_theme        = antergos/webkit_theme        = material/" /etc/lightdm/lightdm-webkit2-greeter.conf
 
 sudo usermod -a -G docker $USER
 sudo systemctl enable docker bluetooth avahi-daemon acpid lightdm
+
+rm pacman-pkglist.txt
+rm aur-pkglist.txt
 
 rm $0 # Self delete
