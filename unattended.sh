@@ -100,8 +100,7 @@ pacstrap /mnt base base-devel linux linux-firmware \
     nodejs \
     earlyoom \
     xorg-server \
-    xf86-video-fbdev \
-    xf86-video-intel
+    xf86-video-fbdev 
 
 
 genfstab -U /mnt >> /mnt/etc/fstab  # Generate the entries for fstab
@@ -180,7 +179,6 @@ tee -a /etc/fstab << END
 END
 
 sed -i "s/^HOOKS.*/HOOKS=(base systemd keyboard autodetect sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/g" /etc/mkinitcpio.conf
-sed -i 's/^MODULES.*/MODULES=(intel_agp i915)/' /etc/mkinitcpio.conf
 sed -i 's/^BINARIES.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 bootctl --path=/boot/ install
@@ -199,7 +197,7 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard i915.fastboot=1 i915.enable_fbc=1 i915.enable_guc=2 i915.enable_psr=0 nmi_watchdog=0 quiet rw
+options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard nmi_watchdog=0 quiet rw
 END
 EOF
 
