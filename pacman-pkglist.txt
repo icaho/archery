@@ -92,12 +92,14 @@ sed
 sudo
 texinfo
 tlp
+the_silver_searcher
 tmux
 transmission-cli
 ttf-font-awesome
 ttf-nerd-fonts-symbols-mono
 tumbler
 ueberzug
+ufw
 upower
 vim
 w3m
