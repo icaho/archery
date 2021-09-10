@@ -34,7 +34,7 @@ sudo sed -i "s/webkit_theme        = antergos/webkit_theme        = material/" /
 sudo usermod -a -G docker $USER
 sudo systemctl enable docker bluetooth avahi-daemon acpid lightdm
 
-nvim --headless +PlugInstall +qall
+nvim --headless +PlugInstall +qall 2&>1 > /dev/null
 
 rm pacman-pkglist.txt
 rm aur-pkglist.txt
