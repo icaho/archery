@@ -12,3 +12,4 @@ ttf-font-awesome-4
 xfce-theme-greybird
 yay
 lightdm-webkit-theme-material-git
+pulseaudio-control
