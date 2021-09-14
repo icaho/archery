@@ -133,6 +133,9 @@ echo -en "$root_password\n$root_password" | passwd
 echo -en "$user_password\n$user_password" | passwd $username
 
 sed -i "s/^# %wheel/%wheel/g" /etc/sudoers
+tee -a /etc/sudoers << END
+Defaults editor=/usr/bin/nvim
+END
 
 systemctl enable NetworkManager.service NetworkManager-wait-online.service fstrim.timer sshd.service earlyoom.service
 
