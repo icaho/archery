@@ -17,7 +17,7 @@ curl -O https://raw.githubusercontent.com/icaho/archery/master/aur-pkglist.txt
 
 yay -S --needed - < aur-pkglist.txt
 
-( sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" )
+( sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended )
 
 git clone https://github.com/icaho/archery-dotfiles.git
 rsync --recursive --verbose --exclude '.git' --exclude 'README.md' archery-dotfiles/ $HOME
