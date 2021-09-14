@@ -8,6 +8,7 @@ autorandr
 base
 binutils
 bison
+bluez-utils
 btrfs-progs
 chromium
 docker

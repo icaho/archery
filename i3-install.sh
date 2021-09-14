@@ -32,7 +32,7 @@ sudo sed -i "/^\[Seat/a greeter-session=lightdm-webkit2-greeter" /etc/lightdm/li
 sudo sed -i "s/webkit_theme        = antergos/webkit_theme        = material/" /etc/lightdm/lightdm-webkit2-greeter.conf
 
 sudo usermod -a -G docker $USER
-sudo systemctl enable docker bluetooth avahi-daemon acpid lightdm
+sudo systemctl enable docker bluetooth avahi-daemon lightdm
 
 nvim --headless +PlugInstall +qall 2>&1 > /dev/null
 
