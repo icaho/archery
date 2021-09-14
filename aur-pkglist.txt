@@ -13,3 +13,4 @@ xfce-theme-greybird
 yay
 lightdm-webkit-theme-material-git
 pulseaudio-control
+qogir-gtk-theme
