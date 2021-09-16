@@ -99,6 +99,7 @@ tlp
 the_silver_searcher
 tmux
 transmission-cli
+ttf-dejavu
 ttf-font-awesome
 ttf-nerd-fonts-symbols-mono
 tumbler
