@@ -161,6 +161,15 @@ tee -a /etc/udev/rules.d/81-backlight.rules << END
 SUBSYSTEM=="backlight", ACTION=="add", KERNEL=="intel_backlight", ATTR{brightness}="9000"
 END
 
+mkdir -p /etc/X11/xorg.conf.d && tee <<'END' /etc/X11/xorg.conf.d/90-touchpad.conf 1> /dev/null
+Section "InputClass"
+        Identifier "touchpad"
+        MatchIsTouchpad "on"
+        Driver "libinput"
+        Option "Tapping" "on"
+EndSection
+END
+
 mkdir -p /etc/pacman.d/hooks/
 touch /etc/pacman.d/hooks/100-systemd-boot.hook
 tee -a /etc/pacman.d/hooks/100-systemd-boot.hook << END
