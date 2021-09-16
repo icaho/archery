@@ -8,6 +8,8 @@ polybar
 polybar-spotify
 rofi-dmenu
 slack-desktop
+spicetify-cli
+spicetify-themes
 ttf-font-awesome-4
 xfce-theme-greybird
 yay

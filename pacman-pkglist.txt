@@ -6,6 +6,7 @@ autoconf
 automake
 autorandr
 base
+bc
 binutils
 bison
 bluez-utils
@@ -107,6 +108,7 @@ ueberzug
 ufw
 upower
 vim
+vlc
 w3m
 which
 wpa_supplicant
@@ -115,5 +117,6 @@ xdg-user-dirs
 xf86-video-fbdev
 xfce4-power-manager
 xorg-server
+xorg-xinput
 xss-lock
 zsh
