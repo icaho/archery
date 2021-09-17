@@ -37,6 +37,7 @@ sudo systemctl enable docker bluetooth avahi-daemon lightdm
 fc-cache -f -v
 
 nvim --headless +PlugInstall +qall 2>&1 > /dev/null
+sudo usermod -a -G tfenv $USER
 
 rm pacman-pkglist.txt
 rm aur-pkglist.txt
