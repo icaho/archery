@@ -61,6 +61,7 @@ lxappearance
 m4
 maim
 make
+mate-power-manager
 mediainfo
 mesa-demos
 neofetch
@@ -115,7 +116,6 @@ wpa_supplicant
 xarchiver
 xdg-user-dirs
 xf86-video-fbdev
-xfce4-power-manager
 xorg-server
 xorg-xinput
 xss-lock
