@@ -8,9 +8,10 @@ continent_city=Europe/London
 keymap=uk
 
 read -p "Enter drive name: " drive
-read -p "Enter name: " username
+read -p "Enter username: " username
 # username=st
 read -p "Enter hostname: " hostname
+read -p "Enter Swap size in GB " swapsize
 # hostname=bebop
 read -s -p "Enter userpass: " user_password
 read -s -p "Enter rootpass: " root_password
@@ -177,7 +178,7 @@ tee -a /etc/pacman.d/hooks/100-systemd-boot.hook << END
 Type = Package
 Operation = Upgrade
 Target = systemd
-
+
 [Action]
 Description = Updating systemd-boot
 When = PostTransaction
@@ -187,7 +188,7 @@ END
 truncate -s 0 /swapspace/swapfile
 chattr +C /swapspace/swapfile
 btrfs property set /swapspace/swapfile compression none
-fallocate -l 16G /swapspace/swapfile
+fallocate -l ${swapsize}G /swapspace/swapfile
 mkswap /swapspace/swapfile
 chmod 600 /swapspace/swapfile
 tee -a /etc/fstab << END
@@ -213,7 +214,7 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard nmi_watchdog=0 quiet rw
+options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard i915.fastboot=1 i915.enable_fbc=1 i915.enable_guc=2 i915.enable_psr=0 nmi_watchdog=0 quiet rw
 END
 EOF
 
