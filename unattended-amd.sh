@@ -179,6 +179,18 @@ EndSection
 END
 
 mkdir -p /etc/pacman.d/hooks/
+touch /etc/pacman.d/hooks/100-systemd-boot.hook
+tee -a /etc/pacman.d/hooks/100-systemd-boot.hook << END
+[Trigger]
+Type = Package
+Operation = Upgrade
+Target = systemd
+
+[Action]
+Description = Updating systemd-boot
+When = PostTransaction
+Exec = /usr/bin/bootctl update
+END
 
 truncate -s 0 /swapspace/swapfile
 chattr +C /swapspace/swapfile
@@ -194,27 +206,24 @@ sed -i 's/^MODULES.*/MODULES=(amdgpu radeon)/g' /etc/mkinitcpio.conf
 sed -i "s/^HOOKS.*/HOOKS=(base systemd keyboard autodetect sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/g" /etc/mkinitcpio.conf
 sed -i 's/^BINARIES.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
 mkinitcpio -P
+bootctl --path=/boot/ install
 
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=archgrub
+mkdir -p /boot/loader/
+tee -a /boot/loader/loader.conf << END
+default arch.conf
+console-mode max
+editor no
+END
 
-grub-mkconfig -o /boot/grub/grub.cfg
-
-# mkdir -p /boot/loader/
-# tee -a /boot/loader/loader.conf << END
-# default arch.conf
-# console-mode max
-# editor no
-# END
-
-# mkdir -p /boot/loader/entries/
-# touch /boot/loader/entries/arch.conf
-# tee -a /boot/loader/entries/arch.conf << END
-# title Arch Linux
-# linux /vmlinuz-linux
-# initrd /amd-ucode.img
-# initrd /initramfs-linux.img
-# options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard i915.fastboot=1 i915.enable_fbc=1 i915.enable_guc=2 i915.enable_psr=0 nmi_watchdog=0 quiet rw
-# END
+mkdir -p /boot/loader/entries/
+touch /boot/loader/entries/arch.conf
+tee -a /boot/loader/entries/arch.conf << END
+title Arch Linux
+linux /vmlinuz-linux
+initrd /amd-ucode.img
+initrd /initramfs-linux.img
+options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard nmi_watchdog=0 loglevel=0 quiet rw
+END
 EOF
 
-# umount -R /mnt
+umount -R /mnt
