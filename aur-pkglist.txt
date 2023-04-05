@@ -7,14 +7,7 @@ nerd-fonts-source-code-pro
 polybar
 polybar-spotify
 rofi-dmenu
-slack-desktop
-spicetify-cli
-spicetify-themes
 ttf-font-awesome-4
-xfce-theme-greybird
 yay
-lightdm-webkit-theme-material-git
 pulseaudio-control
-qogir-gtk-theme
-qogir-icon-theme
 tfenv
