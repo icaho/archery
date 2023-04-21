@@ -46,7 +46,6 @@ i3lock
 i3status
 imagemagick
 inetutils
-intel-ucode
 kubectl
 lib32-alsa-plugins
 lib32-libpulse
@@ -93,7 +92,6 @@ rofi-calc
 rofi-pass
 rsync
 ruby
-scrot
 sed
 sudo
 texinfo

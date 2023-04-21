@@ -24,6 +24,7 @@ rsync --recursive --verbose --exclude '.git' --exclude 'README.md' archery-dotfi
 rm -rf archery-dotfiles
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+sudo git clone https://github.com/artur9010/lightdm-webkit-material.git /usr/share/lightdm-webkit/themes/lightdm-webkit-material
 
 sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="kungfupanda"/' ~/.zshrc
 sed -i 's/plugins=(git)/plugins=(git zsh-syntax-highlighting)/' ~/.zshrc
