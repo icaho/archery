@@ -93,6 +93,7 @@ rofi-pass
 rsync
 ruby
 sed
+spotify-launcher
 sudo
 texinfo
 tlp

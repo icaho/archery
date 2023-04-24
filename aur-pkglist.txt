@@ -6,7 +6,6 @@ nerd-fonts-hack
 nerd-fonts-source-code-pro
 polybar
 polybar-spotify
-rofi-dmenu
 ttf-font-awesome-4
 yay
 pulseaudio-control
