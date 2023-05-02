@@ -2,11 +2,14 @@
 
 set -e
 
-pacmanInstall()
+pacmanDeps()
 {
 	echo "installing deps"
 	sudo pacman -Syu git rsync curl
-	sleep 5
+}
+
+pacmanInstall()
+{
     echo "grab pacman list of packages to install"
 	curl -O https://raw.githubusercontent.com/icaho/archery/master/pacman-pkglist.txt
     echo "installing pacman-pkglist"
@@ -15,15 +18,18 @@ pacmanInstall()
     rm pacman-pkglist.txt
 }
 
-yayInstall()
+yaySetup()
 {
 	echo "installing yay aur helper tool"
 	git clone https://aur.archlinux.org/yay.git /tmp/yay
 	cd /tmp/yay
 	makepkg -si
 	cd -
-    sleep 5
-    echo "graaur list of packages to install"
+}
+
+yayInstall()
+{
+    echo "grab aur list of packages to install"
 	curl -O https://raw.githubusercontent.com/icaho/archery/master/aur-pkglist.txt
 	echo "installing aur packages"
     sleep 5
@@ -62,19 +68,22 @@ burnAfterReading()
 	rm $0 # Self delete
 }
 
-while getopts ":p:y:i:d" option; do
+while getopts "pyidcm" option; do
     case $option in
 	    p) # Install pacman packages
 	        pacmanInstall
-	        exit
 	        ;;
+	    m) # pacman deps
+			pacmanDeps
+			;;
 	    y) # Install aur packages
             yayInstall
-            exit
             ;;
+        c) # config yay
+			yaySetup
+			;;
         i) # Install and configure i3
 			mainInstall
-			exit
 			;;
 		d) # Remove script after the run
 			burnAfterReading

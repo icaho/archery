@@ -101,6 +101,7 @@ pacstrap /mnt base base-devel linux linux-firmware \
     python \
     nodejs \
     earlyoom \
+    thermald \
     xorg-server \
     xf86-video-fbdev \
     xf86-video-amdgpu \
@@ -156,7 +157,7 @@ tee -a /etc/sudoers << END
 Defaults editor=/usr/bin/nvim
 END
 
-systemctl enable NetworkManager.service NetworkManager-wait-online.service fstrim.timer sshd.service earlyoom.service
+systemctl enable NetworkManager.service NetworkManager-wait-online.service fstrim.timer sshd.service earlyoom.service thermald.service
 
 tee -a /etc/pacman.conf << END
 
@@ -222,7 +223,7 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd /amd-ucode.img
 initrd /initramfs-linux.img
-options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard nmi_watchdog=0 loglevel=0 mitigations=auto quiet rw
+options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard nmi_watchdog=0 loglevel=0 systemd.show_status=0 rd,udev.log_priority=0 mitigations=auto quiet rw
 END
 EOF
 
