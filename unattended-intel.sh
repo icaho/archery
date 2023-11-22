@@ -193,7 +193,7 @@ compression-algorithm = zstd
 swap-priority = 100
 fs-type = swap
 END
-systemctl daemon-relead
+systemctl daemon-reload
 systemctl enable systemd-zram-setup@zram0.service
 
 sed -i "s/^HOOKS.*/HOOKS=(base systemd keyboard autodetect sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/g" /etc/mkinitcpio.conf
