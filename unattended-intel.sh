@@ -11,12 +11,14 @@ read -p "Enter drive name: " drive
 read -p "Enter username: " username
 # username=st
 read -p "Enter hostname: " hostname
-read -p "Enter Swap size in GB " swapsize
 # hostname=bebop
 read -s -p "Enter userpass: " user_password
 read -s -p "Enter rootpass: " root_password
 
 if [ "$drive" == nvme0n1 ] ; then
+    bootpt="p1"
+    rootpt="p2"
+elif [ "$drive" == mmcblk0 ] ; then
     bootpt="p1"
     rootpt="p2"
 else
@@ -47,7 +49,6 @@ mount /dev/mapper/cryptroot /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@home
 btrfs su cr /mnt/@tmp
-btrfs su cr /mnt/@swap
 btrfs su cr /mnt/@snapshots
 btrfs su cr /mnt/@var_cache
 btrfs su cr /mnt/@var_log
@@ -63,7 +64,6 @@ mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@tmp /dev/mappe
 mkdir /mnt/var/{log,cache} # Create directories for their respective var subvolumes
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@var_cache /dev/mapper/cryptroot /mnt/var/cache
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@var_log /dev/mapper/cryptroot /mnt/var/log
-mount -o rw,noatime,space_cache,subvol=@swap /dev/mapper/cryptroot /mnt/swapspace
 mount $BOOT /mnt/boot
 
 sed -i "/#Color/a ILoveCandy" /etc/pacman.conf  # Making pacman prettier
@@ -101,7 +101,8 @@ pacstrap /mnt base base-devel linux linux-firmware \
     nodejs \
     earlyoom \
     xorg-server \
-    xf86-video-fbdev 
+    xf86-video-fbdev \
+    zram-generator
 
 
 genfstab -U /mnt >> /mnt/etc/fstab  # Generate the entries for fstab
@@ -185,15 +186,15 @@ When = PostTransaction
 Exec = /usr/bin/bootctl update
 END
 
-truncate -s 0 /swapspace/swapfile
-chattr +C /swapspace/swapfile
-btrfs property set /swapspace/swapfile compression none
-fallocate -l ${swapsize}G /swapspace/swapfile
-mkswap /swapspace/swapfile
-chmod 600 /swapspace/swapfile
-tee -a /etc/fstab << END
-/swapspace/swapfile none swap defaults,discard 0 0
+tee -a /etc/systemd/zram-generator.conf << END
+[zram0]
+zram-size = ram / 2
+compression-algorithm = zstd
+swap-priority = 100
+fs-type = swap
 END
+systemctl daemon-relead
+systemctl enable systemd-zram-setup@zram0.service
 
 sed -i "s/^HOOKS.*/HOOKS=(base systemd keyboard autodetect sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/g" /etc/mkinitcpio.conf
 sed -i 's/^BINARIES.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
