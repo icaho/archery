@@ -102,7 +102,7 @@ tmux
 transmission-cli
 ttf-dejavu
 ttf-font-awesome
-ttf-nerd-fonts-symbols-MONO
+ttf-nerd-fonts-symbols-mono
 tumbler
 ueberzug
 ufw
