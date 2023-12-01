@@ -10,12 +10,12 @@ pacmanDeps()
 
 pacmanInstall()
 {
-    echo "grab pacman list of packages to install"
+	echo "grab pacman list of packages to install"
 	curl -O https://raw.githubusercontent.com/icaho/archery/master/pacman-pkglist.txt
-    echo "installing pacman-pkglist"
-    sleep 5
+	echo "installing pacman-pkglist"
+	sleep 5
 	sudo pacman -S --needed - < pacman-pkglist.txt
-    rm pacman-pkglist.txt
+	rm pacman-pkglist.txt
 }
 
 yaySetup()
@@ -29,10 +29,10 @@ yaySetup()
 
 yayInstall()
 {
-    echo "grab aur list of packages to install"
+	echo "grab aur list of packages to install"
 	curl -O https://raw.githubusercontent.com/icaho/archery/master/aur-pkglist.txt
 	echo "installing aur packages"
-    sleep 5
+	sleep 5
 	yay -S --needed --noconfirm - < aur-pkglist.txt
 	rm aur-pkglist.txt
 }
@@ -71,27 +71,27 @@ burnAfterReading()
 while getopts "pyidcm" option; do
     case $option in
 	    p) # Install pacman packages
-	        pacmanInstall
-	        ;;
+				pacmanInstall
+			;;
 	    m) # pacman deps
-			pacmanDeps
+				pacmanDeps
 			;;
 	    y) # Install aur packages
-            yayInstall
-            ;;
-        c) # config yay
-			yaySetup
+				yayInstall
 			;;
-        i) # Install and configure i3
-			mainInstall
+			c) # config yay
+				yaySetup
 			;;
-		d) # Remove script after the run
-			burnAfterReading
-			exit
+			i) # Install and configure i3
+				mainInstall
 			;;
-		\?) # Invalid option
-	        echo "Error: Invalid option"
-	        exit
-	        ;;
+			d) # Remove script after the run
+				burnAfterReading
+				exit
+			;;
+			\?) # Invalid option
+				echo "Error: Invalid option"
+				exit
+			;;
     esac
 done

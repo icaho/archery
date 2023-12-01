@@ -179,7 +179,7 @@ tee -a /etc/pacman.d/hooks/100-systemd-boot.hook << END
 Type = Package
 Operation = Upgrade
 Target = systemd
-
+
 [Action]
 Description = Updating systemd-boot
 When = PostTransaction

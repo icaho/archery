@@ -24,7 +24,6 @@ mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@tmp /dev/mappe
 mkdir /mnt/var/{log,cache} # Create directories for their respective var subvolumes
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@var_cache /dev/mapper/cryptroot /mnt/var/cache
 mount -o noatime,compress-force=zstd:1,ssd,space_cache=v2,subvol=@var_log /dev/mapper/cryptroot /mnt/var/log
-mount -o rw,noatime,space_cache,subvol=@swap /dev/mapper/cryptroot /mnt/swapspace
 mount $BOOT /mnt/boot
 
 arch-chroot /mnt /bin/bash
