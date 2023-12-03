@@ -1,12 +1,11 @@
 archlinux-artwork
+awsvpnclient
 gtk3-nocsd-git
-montserrat-font-ttf
+montserrat-ttf
 mugshot
-nerd-fonts-hack
-nerd-fonts-source-code-pro
-polybar
 polybar-spotify
+pulseaudio-control
+spotify
+tfenv
 ttf-font-awesome-4
 yay
-pulseaudio-control
-tfenv
