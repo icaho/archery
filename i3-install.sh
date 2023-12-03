@@ -46,10 +46,12 @@ mainInstall()
 	rm -rf archery-dotfiles
 
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+	
 	sudo git clone https://github.com/icaho/lightdm-webkit-material.git /usr/share/lightdm-webkit/themes/material
 
 	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="kungfupanda"/' ~/.zshrc
-	sed -i 's/plugins=(git)/plugins=(git zsh-syntax-highlighting)/' ~/.zshrc
+	sed -i 's/plugins=(git)/plugins=(git kubectl zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc
 
 	sudo sed -i "/^\[Seat/a greeter-session=lightdm-webkit2-greeter" /etc/lightdm/lightdm.conf
 	sudo sed -i "s/webkit_theme        = antergos/webkit_theme        = material/" /etc/lightdm/lightdm-webkit2-greeter.conf

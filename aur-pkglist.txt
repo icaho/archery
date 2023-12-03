@@ -5,6 +5,7 @@ montserrat-ttf
 mugshot
 polybar-spotify
 pulseaudio-control
+rofi-bluetooth-git
 spotify
 tfenv
 ttf-font-awesome-4
