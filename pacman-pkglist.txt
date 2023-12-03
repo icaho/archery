@@ -114,3 +114,5 @@ xss-lock
 yay
 zram-generator
 zsh
+zsh-completions
+
