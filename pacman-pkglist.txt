@@ -1,10 +1,8 @@
 acpid
 adobe-source-code-pro-fonts
 alacritty
-archlinux-artwork
 atool
 autorandr
-awsvpnclient
 base
 base-devel
 bc
@@ -26,7 +24,6 @@ firefox
 flatpak
 fzf
 git
-gtk3-nocsd-git
 gvfs
 helm
 highlight
@@ -52,8 +49,6 @@ maim
 mate-power-manager
 mediainfo
 mesa-demos
-montserrat-ttf
-mugshot
 neofetch
 neovim
 networkmanager
@@ -68,12 +63,10 @@ picom
 playerctl
 polkit-gnome
 polybar
-polybar-spotify
 poppler
 poppler-data
 pulseaudio-alsa
 pulseaudio-bluetooth
-pulseaudio-control
 python
 qrencode
 ranger
@@ -92,7 +85,6 @@ tmux
 transmission-cli
 ttf-dejavu
 ttf-font-awesome
-ttf-font-awesome-4
 ttf-nerd-fonts-symbols-mono
 ttf-sourcecodepro-nerd
 tumbler
@@ -111,7 +103,6 @@ xf86-video-fbdev
 xorg-server
 xorg-xinput
 xss-lock
-yay
 zram-generator
 zsh
 zsh-completions
