@@ -9,9 +9,7 @@ keymap=uk
 
 read -p "Enter drive name: " drive
 read -p "Enter username: " username
-# username=st
 read -p "Enter hostname: " hostname
-# hostname=bebop
 read -s -p "Enter userpass: " user_password
 read -s -p "Enter rootpass: " root_password
 
