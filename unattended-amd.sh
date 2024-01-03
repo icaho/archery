@@ -101,12 +101,17 @@ pacstrap /mnt base base-devel linux linux-firmware \
     earlyoom \
     thermald \
     xorg-server \
+    xorg-xinput \
     xf86-video-fbdev \
     xf86-video-amdgpu \
     lib32-mesa \
-    vulkan-radeon lib32-vulkan-radeon \
-    libva-mesa-driver lib32-libva-mesa-driver \
-    mesa-vdpau lib32-mesa-vdpau 
+    vulkan-radeon \
+    lib32-vulkan-radeon \
+    libva-mesa-driver \
+    lib32-libva-mesa-driver \
+    mesa-vdpau \
+    lib32-mesa-vdpau \
+    zram-generator
 
 
 
