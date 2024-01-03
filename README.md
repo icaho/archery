@@ -20,7 +20,7 @@ station wlan0 connect (wifi-ssid)
 
 ## Getting the script
 
-choose the version of the script you want to install, for intel use unattended-intel.sh for amd use unattended-amd.sh
+choose the version of the script you want to install, for intel use unattended-intel.sh for amd use unattended-amd.sh (there is a WiP for BIOS installs but no guarantees on it working)
 
 ``` bash
 curl -O https://raw.githubusercontent.com/icaho/archery/main/unattended-intel.sh
