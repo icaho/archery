@@ -76,7 +76,7 @@ pacman -Syy
 
 pacman -S archlinux-keyring
 
-pacstrap /mnt base base-devel linux linux-firmware 
+pacstrap /mnt base linux linux-firmware 
 
 genfstab -U /mnt >> /mnt/etc/fstab  # Generate the entries for fstab
 arch-chroot /mnt /bin/bash << EOF
@@ -97,8 +97,12 @@ echo "Defaults !tty_tickets" >> /etc/sudoers
 sed -i "/#Color/a ILoveCandy" /etc/pacman.conf
 sed -i "s/#Color/Color/g; s/#ParallelDownloads = 5/ParallelDownloads = 6/g; s/#UseSyslog/UseSyslog/g; s/#VerbosePkgLists/VerbosePkgLists/g" /etc/pacman.conf
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g; s/-)/--threads=0 -)/g; s/gzip/pigz/g; s/bzip2/pbzip2/g' /etc/makepkg.conf
+tee -a /etc/pacman.conf << END
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+END
 
-pacman -Sy archlinux-keyring
+pacman -S archlinux-keyring
 
 pacman -S intel-ucode \
     networkmanager \
@@ -114,7 +118,6 @@ pacman -S intel-ucode \
     rsync \
     openssh \
     git \
-    neovim \
     htop \
     openvpn \
     networkmanager-openvpn \
@@ -127,10 +130,7 @@ pacman -S intel-ucode \
     xorg-server \
     xorg-xinput \
     xf86-video-fbdev \
-    xf86-video-amdgpu \
     lib32-mesa \
-    vulkan-radeon \
-    lib32-vulkan-radeon \
     libva-mesa-driver \
     lib32-libva-mesa-driver \
     mesa-vdpau \
