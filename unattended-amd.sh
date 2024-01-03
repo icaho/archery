@@ -71,8 +71,31 @@ END
 
 pacman -Syy
 
-pacstrap /mnt base base-devel linux linux-firmware \
-    amd-ucode \
+pacstrap /mnt base base-devel linux linux-firmware
+
+genfstab -U /mnt >> /mnt/etc/fstab  # Generate the entries for fstab
+arch-chroot /mnt /bin/bash << EOF
+timedatectl set-ntp true
+ln -sf /usr/share/zoneinfo/$continent_city /etc/localtime
+hwclock --systohc
+sed -i "s/#en_GB/en_GB/g; s/#en_US.UTF-8/en_US.UTF-8/g" /etc/locale.gen
+echo "LANG=en_GB.UTF-8" > /etc/locale.conf
+locale-gen
+
+echo -e "127.0.0.1\tlocalhost" >> /etc/hosts
+echo -e "::1\t\tlocalhost" >> /etc/hosts
+echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >> /etc/hosts
+
+echo -e "KEYMAP=$keymap" > /etc/vconsole.conf
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+echo "Defaults !tty_tickets" >> /etc/sudoers
+sed -i "/#Color/a ILoveCandy" /etc/pacman.conf
+sed -i "s/#Color/Color/g; s/#ParallelDownloads = 5/ParallelDownloads = 6/g; s/#UseSyslog/UseSyslog/g; s/#VerbosePkgLists/VerbosePkgLists/g" /etc/pacman.conf
+sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g; s/-)/--threads=0 -)/g; s/gzip/pigz/g; s/bzip2/pbzip2/g' /etc/makepkg.conf
+
+pacman -Sy archlinux-keyring
+
+pacman -S amd-ucode \
     networkmanager \
     efibootmgr \
     grub \
@@ -109,29 +132,6 @@ pacstrap /mnt base base-devel linux linux-firmware \
     mesa-vdpau \
     lib32-mesa-vdpau \
     zram-generator
-
-
-
-
-genfstab -U /mnt >> /mnt/etc/fstab  # Generate the entries for fstab
-arch-chroot /mnt /bin/bash << EOF
-timedatectl set-ntp true
-ln -sf /usr/share/zoneinfo/$continent_city /etc/localtime
-hwclock --systohc
-sed -i "s/#en_GB/en_GB/g; s/#en_US.UTF-8/en_US.UTF-8/g" /etc/locale.gen
-echo "LANG=en_GB.UTF-8" > /etc/locale.conf
-locale-gen
-
-echo -e "127.0.0.1\tlocalhost" >> /etc/hosts
-echo -e "::1\t\tlocalhost" >> /etc/hosts
-echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >> /etc/hosts
-
-echo -e "KEYMAP=$keymap" > /etc/vconsole.conf
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-echo "Defaults !tty_tickets" >> /etc/sudoers
-sed -i "/#Color/a ILoveCandy" /etc/pacman.conf
-sed -i "s/#Color/Color/g; s/#ParallelDownloads = 5/ParallelDownloads = 6/g; s/#UseSyslog/UseSyslog/g; s/#VerbosePkgLists/VerbosePkgLists/g" /etc/pacman.conf
-sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g; s/-)/--threads=0 -)/g; s/gzip/pigz/g; s/bzip2/pbzip2/g' /etc/makepkg.conf
 
 tee -a /etc/modprobe.d/nobeep.conf << END
 blacklist pcspkr
