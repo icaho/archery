@@ -71,6 +71,8 @@ END
 
 pacman -Syy
 
+pacman -S archlinux-keyring
+
 pacstrap /mnt base base-devel linux linux-firmware
 
 genfstab -U /mnt >> /mnt/etc/fstab  # Generate the entries for fstab
