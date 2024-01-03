@@ -99,6 +99,8 @@ tee -a /etc/pacman.conf << END
 Include = /etc/pacman.d/mirrorlist
 END
 
+pacman -Syy
+
 pacman -S archlinux-keyring
 
 pacman -S amd-ucode \
@@ -205,8 +207,6 @@ compression-algorithm = zstd
 swap-priority = 100
 fs-type = swap
 END
-systemctl daemon-reload
-systemctl enable systemd-zram-setup@zram0.service
 
 sed -i 's/^MODULES.*/MODULES=(amdgpu radeon)/g' /etc/mkinitcpio.conf
 sed -i "s/^HOOKS.*/HOOKS=(base systemd keyboard autodetect sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/g" /etc/mkinitcpio.conf

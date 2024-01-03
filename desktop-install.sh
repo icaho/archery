@@ -34,6 +34,7 @@ yayInstall()
 	echo "installing aur packages"
 	sleep 5
 	yay -S --needed --noconfirm - < aur-pkglist
+	sudo cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh
 	rm aur-pkglist
 }
 
@@ -43,7 +44,7 @@ i3Install()
 	curl -O https://raw.githubusercontent.com/icaho/archery/main/pacman/i3-pkglist
 	echo "installing i3 pacman packages"
 	sleep 5
-	sudo pacman -S --needed - < pacman-pkglist
+	sudo pacman -S --needed - < i3-pkglist
 	curl -O https://raw.githubusercontent.com/icaho/archery/main/aur/i3-aur-pkglist
 	echo "installing i3 aur packages"
 	sleep 5
@@ -68,6 +69,11 @@ plasmaPacmanInstall()
 mainInstall()
 {
 	git clone https://github.com/icaho/archery-dotfiles.git
+
+	( sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/main/tools/install.sh)" "" --unattended )
+
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
 	if [ "$DESKTOP" == "i3" ]; then
 		i3Install
@@ -98,11 +104,6 @@ END
 
 	rm -rf archery-dotfiles
 
-	( sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/main/tools/install.sh)" "" --unattended )
-
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-	
 	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="kungfupanda"/' ~/.zshrc
 	sed -i 's/plugins=(git)/plugins=(git kubectl zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc
 
