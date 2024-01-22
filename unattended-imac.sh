@@ -77,7 +77,7 @@ pacstrap /mnt base \
     base-devel \
     linux \ 
     linux-firmware \
-    amd-ucode \
+    intel-ucode \
     networkmanager \
     efibootmgr \
     grub \
@@ -176,15 +176,6 @@ journalctl --vacuum-size=100M --vacuum-time=2weeks
 touch /etc/sysctl.d/99-swappiness.conf
 echo 'vm.swappiness=20' > /etc/sysctl.d/99-swappiness.conf
 
-mkdir -p /etc/X11/xorg.conf.d && tee <<'END' /etc/X11/xorg.conf.d/90-touchpad.conf 1> /dev/null
-Section "InputClass"
-        Identifier "touchpad"
-        MatchIsTouchpad "on"
-        Driver "libinput"
-        Option "Tapping" "on"
-EndSection
-END
-
 mkdir -p /etc/pacman.d/hooks/
 touch /etc/pacman.d/hooks/100-systemd-boot.hook
 tee -a /etc/pacman.d/hooks/100-systemd-boot.hook << END
@@ -227,7 +218,7 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd /amd-ucode.img
 initrd /initramfs-linux.img
-options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard nmi_watchdog=0 loglevel=0 systemd.show_status=0 rd,udev.log_priority=0 mitigations=auto quiet rw
+options rd.luks.name=$(blkid -s UUID -o value $ROOT)=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rd.luks.options=discard nmi_watchdog=0 loglevel=0 systemd.show_status=0 rd,udev.log_priority=0 mitigations=auto acpi_backlight=native quiet rw
 END
 EOF
 
