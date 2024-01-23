@@ -71,7 +71,7 @@ END
 
 pacman -Syy
 
-pacman -S archlinux-keyring
+pacman -S archlinux-keyring --noconfirm
 
 pacstrap /mnt base base-devel linux linux-firmware amd-ucode networkmanager efibootmgr grub btrfs-progs neovim zsh wpa_supplicant dosfstools e2fsprogs sudo tmux rsync openssh git htop openvpn networkmanager-openvpn fzf ruby python nodejs earlyoom thermald xorg-server xorg-xinput xf86-video-fbdev xf86-video-amdgpu lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau zram-generator
 
