@@ -15,7 +15,7 @@ inetutils
 lib32-alsa-plugins
 lib32-libpulse
 libcaca
-light
+acpilight
 mediainfo
 mesa-demos
 neofetch
