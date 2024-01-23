@@ -10,6 +10,7 @@ pacmanDeps()
 
 pacmanInstall()
 {
+	pacmanDeps
 	echo "grab pacman list of packages to install"
 	curl -O https://raw.githubusercontent.com/icaho/archery/main/pacman/pacman-pkglist
 	echo "installing pacman-pkglist"
@@ -29,6 +30,7 @@ yaySetup()
 
 yayInstall()
 {
+	yaySetup
 	echo "grab aur list of packages to install"
 	curl -O https://raw.githubusercontent.com/icaho/archery/main/aur/aur-pkglist
 	echo "installing aur packages"
@@ -63,14 +65,14 @@ plasmaPacmanInstall()
 	echo "installing plasma aur packages"
 	sleep 5
 	yay -S --needed --noconfirm - < plasma-aur-pkglist
-	rm plasma-pkglist
+	rm plasma-pkglist plasma-aur-pkglist
 }
 
 mainInstall()
 {
 	git clone https://github.com/icaho/archery-dotfiles.git
 
-	( sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/main/tools/install.sh)" "" --unattended )
+	( sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended )
 
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions

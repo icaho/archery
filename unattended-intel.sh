@@ -74,43 +74,9 @@ END
 
 pacman -Syy
 
-pacman -S archlinux-keyring
+pacman -S archlinux-keyring --noconfirm
 
-pacstrap /mnt base \
-    linux \
-    linux-firmware \
-    intel-ucode \
-    networkmanager \
-    efibootmgr \
-    btrfs-progs \
-    neovim \
-    zsh \
-    wpa_supplicant \
-    dosfstools \
-    e2fsprogs \
-    sudo \
-    tmux \
-    rsync \
-    openssh \
-    git \
-    htop \
-    openvpn \
-    networkmanager-openvpn \
-    fzf \
-    ruby \
-    python \
-    nodejs \
-    earlyoom \
-    thermald \
-    xorg-server \
-    xorg-xinput \
-    xf86-video-fbdev \
-    lib32-mesa \
-    libva-mesa-driver \
-    lib32-libva-mesa-driver \
-    mesa-vdpau \
-    lib32-mesa-vdpau \
-    zram-generator
+pacstrap /mnt base base-devel
   
 
 genfstab -U /mnt >> /mnt/etc/fstab  # Generate the entries for fstab
@@ -122,6 +88,8 @@ sed -i "s/#en_GB/en_GB/g; s/#en_US.UTF-8/en_US.UTF-8/g" /etc/locale.gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 locale-gen
 
+pacman -S linux linux-firmware intel-ucode networkmanager efibootmgr btrfs-progs neovim zsh wpa_supplicant dosfstools e2fsprogs sudo tmux rsync openssh git htop openvpn networkmanager-openvpn fzf ruby python nodejs earlyoom thermald xorg-server xorg-xinput xf86-video-fbdev lib32-mesa libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau zram-generator --noconfirm
+
 echo -e "127.0.0.1\tlocalhost" >> /etc/hosts
 echo -e "::1\t\tlocalhost" >> /etc/hosts
 echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >> /etc/hosts
@@ -129,13 +97,7 @@ echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >> /etc/hosts
 echo -e "KEYMAP=$keymap" > /etc/vconsole.conf
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 echo "Defaults !tty_tickets" >> /etc/sudoers
-sed -i "/#Color/a ILoveCandy" /etc/pacman.conf
-sed -i "s/#Color/Color/g; s/#ParallelDownloads = 5/ParallelDownloads = 6/g; s/#UseSyslog/UseSyslog/g; s/#VerbosePkgLists/VerbosePkgLists/g" /etc/pacman.conf
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g; s/-)/--threads=0 -)/g; s/gzip/pigz/g; s/bzip2/pbzip2/g' /etc/makepkg.conf
-tee -a /etc/pacman.conf << END
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-END
 
 tee -a /etc/modprobe.d/nobeep.conf << END
 blacklist pcspkr
