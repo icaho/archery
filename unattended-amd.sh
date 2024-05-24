@@ -85,7 +85,7 @@ sed -i "s/#en_GB/en_GB/g; s/#en_US.UTF-8/en_US.UTF-8/g" /etc/locale.gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 locale-gen
 
-pacman -S linux linux-firmware amd-ucode networkmanager efibootmgr grub btrfs-progs neovim zsh wpa_supplicant dosfstools e2fsprogs sudo tmux rsync openssh git htop openvpn networkmanager-openvpn fzf ruby python nodejs earlyoom thermald xorg-server xorg-xinput xf86-video-fbdev xf86-video-amdgpu lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau zram-generator  --noconfirm
+pacman -S linux linux-firmware amd-ucode networkmanager efibootmgr grub btrfs-progs neovim zsh wpa_supplicant dosfstools e2fsprogs sudo tmux rsync openssh git htop openvpn networkmanager-openvpn fzf ruby python nodejs earlyoom thermald xorg-server xorg-xinput xf86-video-fbdev xf86-video-amdgpu lib32-mesa vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau zram-generator mkinitcpio --noconfirm
 
 echo -e "127.0.0.1\tlocalhost" >> /etc/hosts
 echo -e "::1\t\tlocalhost" >> /etc/hosts
